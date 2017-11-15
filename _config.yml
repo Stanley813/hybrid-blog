@@ -4,9 +4,9 @@ permalink:           pretty
 # Setup
 title:               周嘉华
 tagline:             慎独
-url:                https://stanley813.github.io/hybrid-blog/
+url:                 https://stanley813.github.io/
 paginate:            10
-baseurl:             https://stanley813.github.io/hybrid-blog/
+baseurl:             https://stanley813.github.io/
 
 # Assets
 #
