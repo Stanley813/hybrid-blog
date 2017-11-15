@@ -4,11 +4,11 @@ title: Openshift Core Concepts
 ---
 
 
-##ontainer and Images
+# Container and Images
 The basic unit of OpenShift applications is the container. A Linux container provides a lightweight mechanism for isolating running processes so that they interact only with their designated resources. Many application instances can be running in containers on a single host without visibility into each other’s processes, files, networks, and other resources. Typically, each container provides a single service, often called a microservice. Examples include a web server or a database, although containers can be used for arbitrary workloads.While the Linux kernel has provided support for container technologies for years, more recently the Docker project has developed a convenient management interface for Linux containers on a host. OpenShift and Kubernetes add the ability to orchestrate Docker containers across multiple hosts.Docker containers are based on Docker images. A Docker image is a binary file that includes all the requirements for running a single Docker container, as well as metadata describing its needs and capabilities. Think of it as a packaging technology. Docker containers have access only to the resources defined in the image, unless you give the container additional access when creating it. By deploying the same image in multiple containers across multiple hosts and load balancing between them, OpenShift provides redundancy and horizontal scaling for a service packaged into an image.You can use Docker directly to build images. OpenShift also supplies builders that assist with creating an image by adding your code or configuration to existing images.
 
 
-##Pod and Services
+# Pod and Services
 OpenShift leverages the Kubernetes concept of a pod. A pod is a collection of one or more containers deployed together on one host, and the smallest compute unit that can be defined, deployed, and managed.
 Pods are the rough equivalent of OpenShift gears, with containers the rough equivalent of cartridge instances. Each pod is allocated its own internal IP address, therefore owning its entire port space, and containers within pods can share their local storage and networking.
 Pods have a life cycle: They are defined, then assigned to run on a node, and then run until their containers exit or they are removed for some other reason. Pods, depending on policy and exit code, may be removed after their containers exit, or they may be retained to enable access to their containers' logs.
@@ -17,7 +17,7 @@ A Kubernetes service acts as an internal load balancer. It identifies a set of r
 Services are assigned an IP address and port pair that, when accessed, proxy to an appropriate backing pod. A service uses a label selector to find all the running containers that provide a certain network service on a certain port.
 
 
-##Project and Users
+# Project and Users
 A project is a Kubernetes namespace with additional annotations, and is the central vehicle for managing regular users' access to resources. A project allows a community of users to organize and manage their content in isolation from other communities. Users must be given access to projects by administrators—unless they are given permission to create projects, in which case they automatically have access to their own projects.
 Projects can have separate name, displayName, and description attributes:
 
@@ -35,7 +35,7 @@ A number of types of users exist:
 Every user must authenticate to access OpenShift. API requests with missing or invalid authentication are treated as requests from the anonymous system user. Once authenticated, policy determines what the user is authorized to do.
 
 
-##Builds
+# Builds
 A build is the process of transforming input parameters into an object. Most often, the process is used to transform source code into a runnable image. A BuildConfig object is the definition of the entire build process.
 The OpenShift build system provides extensible support for build strategies that are based on selectable types specified in the build API. There are three build strategies available:
 
@@ -46,7 +46,7 @@ The OpenShift build system provides extensible support for build strategies that
 By default, Docker builds and S2I builds are supported. The resulting object of a build depends on the builder used to create it. For Docker and S2I builds, the resulting objects are runnable images. For custom builds, the resulting objects are whatever the builder image author has specified.
 
 
-##Image Streams
+# Image Streams
 An image stream is similar to a Docker image repository in that it contains one or more Docker images identified by tags. An image stream presents a single virtual view of related images, as it may contain images from:
 
 	* Its own image repository in OpenShift’s integrated Docker registry
@@ -57,7 +57,7 @@ OpenShift stores complete metadata about each image, including example command, 
 OpenShift components such as builds and deployments can watch an image stream, receive notifications when new images are added, and then, for example, react by performing a build or a deployment.
 
 
-##Templates
+# Templates
 A template describes a set of objects that can be parameterized and processed by OpenShift. The objects include anything that users have permission to create within a project—for example, services, build configurations, and deployment configurations. A template may also define a set of labels to apply to every object defined in the template.
 The set of objects defined in a template collectively define a desired state. Desired state is an important concept in the Kubernetes/OpenShift model. It is Kubernetes/OpenShift’s responsibility to make sure that the current state matches the desired state.
 A template contains a set of definitions and parameters for the objects to be created together. For example, an application might consist of a front-end web application backed by a database. Each consists of a service object and deployment configuration object, and they share a set of credentials (parameters) for the front end to authenticate to the back end. Specifying parameters in a template allows all the objects instantiated by that template to see consistent values for these parameters when the template is processed. Template parameters can be specified directly or generated automatically. An example of an automatically generated template parameter is a unique database password.
@@ -65,7 +65,7 @@ Templates can be processed from a definition in a file or from an existing OpenS
 Administrators and developers can interact with templates using the CLI and web console.
 
 
-##Deployments
+# Deployments
 A deployment in OpenShift is a replication controller based on a user-defined template called a deployment configuration. Deployments are created manually or in response to triggered events.
 The deployment system provides:
 
@@ -78,7 +78,7 @@ The deployment system provides:
 The deployment configuration contains a version number that is incremented each time a new deployment is created from that configuration. In addition, a description of the reason for the last deployment is added to the configuration.
 
 
-##Routes
+# Routes
 An OpenShift route exposes a service as a host name, such as "www.example.com";. As a result, external clients are able to reach it by name.
 DNS resolution for a host name is handled separately from routing. Your administrator may have configured a cloud domain that always correctly resolves to the OpenShift router. Or, if you are using an unrelated host name, you may need to modify its DNS records independently to resolve to the router.
 Tools to create routes are evolving. While the web console can display routes, it is not yet able to create them. Using the CLI, you can create only an unsecured route using the sample command as shown here. The new route inherits the name from the service unless you specify one.
